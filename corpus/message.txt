@@ -1,0 +1,62 @@
+================================================================================
+Message
+================================================================================
+
+syntax = "proto3";
+
+message Outer {
+  option (my_option).a = true;
+  message Inner {
+    int64 ival = 1;
+  }
+  repeated Inner inner_message = 2;
+  EnumAllowingAlias enum_field =3;
+  map<int32, string> my_map = 4;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (syntax)
+  (message
+    (identifier)
+    (message_body
+      (option
+        (full_ident
+          (identifier))
+        (identifier)
+        (constant
+          (bool
+            (true))))
+      (message
+        (identifier)
+        (message_body
+          (field
+            (type)
+            (identifier)
+            (field_number
+              (int_lit
+                (decimal_lit))))))
+      (field
+        (type
+          (message_or_enum_type
+            (identifier)))
+        (identifier)
+        (field_number
+          (int_lit
+            (decimal_lit))))
+      (field
+        (type
+          (message_or_enum_type
+            (identifier)))
+        (identifier)
+        (field_number
+          (int_lit
+            (decimal_lit))))
+      (map_field
+        (key_type)
+        (type)
+        (identifier)
+        (field_number
+          (int_lit
+            (decimal_lit)))))))

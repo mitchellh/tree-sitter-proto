@@ -7,6 +7,8 @@ const
 module.exports = grammar({
   name: 'proto',
 
+  extras: $ => [$.comment, /\s/],
+
   rules: {
     // proto = syntax { import | package | option | topLevelDef | emptyStatement }
     // topLevelDef = message | enum | service
@@ -17,6 +19,8 @@ module.exports = grammar({
         $.package,
         $.option,
         $.enum,
+        $.message,
+        $.service,
         $.empty_statement,
       ))),
     ),
@@ -102,6 +106,211 @@ module.exports = grammar({
       $.constant,
     ),
 
+    // message = "message" messageName messageBody
+    // messageBody = "{" { field | enum | message | option | oneof | mapField | reserved | emptyStatement } "}"
+    message: $ => seq(
+      'message',
+      $.identifier,
+      $.message_body,
+    ),
+
+    message_body: $ => seq(
+      '{',
+      repeat(choice(
+        $.field,
+        $.enum,
+        $.message,
+        $.option,
+        $.oneof,
+        $.map_field,
+        $.reserved,
+        $.empty_statement,
+      )),
+      '}',
+    ),
+
+    // field = [ "repeated" ] type fieldName "=" fieldNumber [ "[" fieldOptions "]" ] ";"
+    // fieldOptions = fieldOption { ","  fieldOption }
+    // fieldOption = optionName "=" constant
+    field: $ => seq(
+      // This isn't allowed according to the spec and yet the proto3 compiler
+      // accepts it so we put it here for parsing.
+      optional('optional'),
+
+      optional('repeated'),
+      $.type,
+      $.identifier,
+      '=',
+      $.field_number,
+      optional(seq('[', $.field_options, ']')),
+      ';',
+    ),
+
+    field_options: $ => seq(
+      $.field_option,
+      repeat(seq(',', $.field_option)),
+    ),
+
+    field_option: $ => seq(
+      $._option_name,
+      '=',
+      $.constant,
+    ),
+
+    // oneof = "oneof" oneofName "{" { option | oneofField | emptyStatement } "}"
+    // oneofField = type fieldName "=" fieldNumber [ "[" fieldOptions "]" ] ";"
+    oneof: $ => seq(
+      'oneof',
+      $.identifier,
+      '{',
+      repeat(choice(
+        $.option,
+        $.oneof_field,
+        $.empty_statement,
+      )),
+      '}',
+    ),
+
+    oneof_field: $ => seq(
+      $.type,
+      $.identifier,
+      '=',
+      $.field_number,
+      optional(seq('[', $.field_options, ']')),
+    ),
+
+    // mapField = "map" "<" keyType "," type ">" mapName "=" fieldNumber [ "[" fieldOptions "]" ] ";"
+    // keyType = "int32" | "int64" | "uint32" | "uint64" | "sint32" | "sint64" |
+    //        "fixed32" | "fixed64" | "sfixed32" | "sfixed64" | "bool" | "string"
+    map_field: $ => seq(
+      'map',
+      '<',
+      $.key_type,
+      ',',
+      $.type,
+      '>',
+      $.identifier,
+      '=',
+      $.field_number,
+      optional(seq('[', $.field_options, ']')),
+      ';',
+    ),
+
+    key_type: $ => choice(
+      'int32',
+      'int64',
+      'uint32',
+      'uint64',
+      'sint32',
+      'sint64',
+      'fixed32',
+      'fixed64',
+      'sfixed32',
+      'sfixed64',
+      'bool',
+      'string',
+    ),
+
+    // type = "double" | "float" | "int32" | "int64" | "uint32" | "uint64"
+    //    | "sint32" | "sint64" | "fixed32" | "fixed64" | "sfixed32" | "sfixed64"
+    //    | "bool" | "string" | "bytes" | messageType | enumType
+    type: $ => choice(
+      'double',
+      'float',
+      'int32',
+      'int64',
+      'uint32',
+      'uint64',
+      'sint32',
+      'sint64',
+      'fixed32',
+      'fixed64',
+      'sfixed32',
+      'sfixed64',
+      'bool',
+      'string',
+      'bytes',
+      $.message_or_enum_type,
+    ),
+
+    // reserved = "reserved" ( ranges | fieldNames ) ";"
+    // ranges = range { "," range }
+    // range =  intLit [ "to" ( intLit | "max" ) ]
+    // fieldNames = fieldName { "," fieldName }
+    reserved: $ => seq(
+      'reserved',
+      choice($.ranges, $.field_names),
+      ';',
+    ),
+
+    ranges: $ => seq($.range, repeat(seq(',', $.range))),
+
+    range: $ => seq(
+      $.int_lit,
+      optional(seq(
+        'to',
+        choice($.int_lit, 'max'),
+      )),
+    ),
+
+    field_names: $ => seq(
+      $.identifier,
+      repeat(seq(',', $.identifier)),
+    ),
+
+    // messageType = [ "." ] { ident "." } messageName
+    message_or_enum_type: $ => seq(
+      optional('.'),
+      repeat(seq(
+        $.identifier,
+        '.',
+      )),
+      $.identifier,
+    ),
+
+    // fieldNumber = intLit;
+    field_number: $ => $.int_lit,
+
+    // service = "service" serviceName "{" { option | rpc | emptyStatement } "}"
+    // rpc = "rpc" rpcName "(" [ "stream" ] messageType ")" "returns" "(" [ "stream" ]
+    //          messageType ")" (( "{" {option | emptyStatement } "}" ) | ";")
+    service: $ => seq(
+      'service',
+      $.identifier,
+      '{',
+      repeat(choice(
+        $.option,
+        $.rpc,
+        $.empty_statement,
+      )),
+      '}',
+    ),
+
+    rpc: $ => seq(
+      'rpc',
+      $.identifier,
+      '(',
+      optional('stream'),
+      $.message_or_enum_type,
+      ')',
+      'returns',
+      '(',
+      optional('stream'),
+      $.message_or_enum_type,
+      ')',
+      choice(
+        seq(
+          '{',
+          repeat(choice(
+            $.option,
+            $.empty_statement,
+          )),
+          '}',
+        ),
+        ';',
+      ),
+    ),
+
     // constant = fullIdent | ( [ "-" | "+" ] intLit ) | ( [ "-" | "+" ] floatLit ) | strLit | boolLit
     constant: $ => choice(
       $.full_ident,
@@ -115,7 +324,33 @@ module.exports = grammar({
       ),
       $.string,
       $.bool,
-      // TODO
+
+      // block_lit is not specified but is used in the real world
+      // (i.e. grpc-gateway) so we define it
+      $.block_lit,
+    ),
+
+    // block_lit is completely unspecified. I determined what is allowed
+    // based on the "a bit of everything" grpc-gateway example which has
+    // wildly inconsistent syntax and yet it actually parses and compiles
+    // with protoc.
+    block_lit: $ => seq(
+      '{',
+      repeat(seq(
+        $.identifier,
+        optional(':'),
+        choice(
+          $.constant,
+          seq(
+            '[',
+            $.constant,
+            repeat(seq(',', $.constant)),
+            ']',
+          ),
+        ),
+        optional(choice(',', ';')),
+      )),
+      '}',
     ),
 
     // ident = letter { letter | decimalDigit | "_" }
@@ -232,5 +467,14 @@ module.exports = grammar({
         /U[0-9a-fA-F]{8}/
       )
     )),
+
+    comment: $ => token(choice(
+      seq('//', /.*/),
+      seq(
+        '/*',
+        /[^*]*\*+([^/*][^*]*\*+)*/,
+        '/'
+      )
+    ))
   }
 });
