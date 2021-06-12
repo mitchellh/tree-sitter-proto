@@ -11,5 +11,24 @@
     "proto"
   ],
   "author": "Mitchell Hashimoto <xmitchx@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "nan": "^2.14.0"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.19.1"
+  },
+  "scripts": {
+    "build": "tree-sitter generate && node-gyp build",
+    "test": "tree-sitter test",
+    "test-windows": "tree-sitter test"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.proto",
+      "file-types": [
+        "proto"
+      ]
+    }
+  ]
 }
