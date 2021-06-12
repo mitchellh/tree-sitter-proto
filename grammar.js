@@ -72,9 +72,11 @@ module.exports = grammar({
     // enumValueOption = optionName "=" constant
     enum: $ => seq(
       'enum',
-      $.identifier,
+      $.enum_name,
       $.enum_body,
     ),
+
+    enum_name: $ => $.identifier,
 
     enum_body: $ => seq(
       '{',
@@ -110,7 +112,7 @@ module.exports = grammar({
     // messageBody = "{" { field | enum | message | option | oneof | mapField | reserved | emptyStatement } "}"
     message: $ => seq(
       'message',
-      $.identifier,
+      $.message_name,
       $.message_body,
     ),
 
@@ -128,6 +130,8 @@ module.exports = grammar({
       )),
       '}',
     ),
+
+    message_name: $ => $.identifier,
 
     // field = [ "repeated" ] type fieldName "=" fieldNumber [ "[" fieldOptions "]" ] ";"
     // fieldOptions = fieldOption { ","  fieldOption }
@@ -276,7 +280,7 @@ module.exports = grammar({
     //          messageType ")" (( "{" {option | emptyStatement } "}" ) | ";")
     service: $ => seq(
       'service',
-      $.identifier,
+      $.service_name,
       '{',
       repeat(choice(
         $.option,
@@ -286,9 +290,11 @@ module.exports = grammar({
       '}',
     ),
 
+    service_name: $ => $.identifier,
+
     rpc: $ => seq(
       'rpc',
-      $.identifier,
+      $.rpc_name,
       '(',
       optional('stream'),
       $.message_or_enum_type,
@@ -310,6 +316,8 @@ module.exports = grammar({
         ';',
       ),
     ),
+
+    rpc_name: $ => $.identifier,
 
     // constant = fullIdent | ( [ "-" | "+" ] intLit ) | ( [ "-" | "+" ] floatLit ) | strLit | boolLit
     constant: $ => choice(

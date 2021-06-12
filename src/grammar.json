@@ -219,13 +219,17 @@
         },
         {
           "type": "SYMBOL",
-          "name": "identifier"
+          "name": "enum_name"
         },
         {
           "type": "SYMBOL",
           "name": "enum_body"
         }
       ]
+    },
+    "enum_name": {
+      "type": "SYMBOL",
+      "name": "identifier"
     },
     "enum_body": {
       "type": "SEQ",
@@ -360,7 +364,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "identifier"
+          "name": "message_name"
         },
         {
           "type": "SYMBOL",
@@ -420,6 +424,10 @@
           "value": "}"
         }
       ]
+    },
+    "message_name": {
+      "type": "SYMBOL",
+      "name": "identifier"
     },
     "field": {
       "type": "SEQ",
@@ -981,7 +989,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "identifier"
+          "name": "service_name"
         },
         {
           "type": "STRING",
@@ -1013,6 +1021,10 @@
         }
       ]
     },
+    "service_name": {
+      "type": "SYMBOL",
+      "name": "identifier"
+    },
     "rpc": {
       "type": "SEQ",
       "members": [
@@ -1022,7 +1034,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "identifier"
+          "name": "rpc_name"
         },
         {
           "type": "STRING",
@@ -1115,6 +1127,10 @@
           ]
         }
       ]
+    },
+    "rpc_name": {
+      "type": "SYMBOL",
+      "name": "identifier"
     },
     "constant": {
       "type": "CHOICE",

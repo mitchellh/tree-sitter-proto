@@ -16,7 +16,8 @@ enum EnumAllowingAlias {
 (source_file
   (syntax)
   (enum
-    (identifier)
+    (enum_name
+      (identifier))
     (enum_body
       (option
         (identifier)

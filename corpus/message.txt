@@ -19,7 +19,8 @@ message Outer {
 (source_file
   (syntax)
   (message
-    (identifier)
+    (message_name
+      (identifier))
     (message_body
       (option
         (full_ident
@@ -29,7 +30,8 @@ message Outer {
           (bool
             (true))))
       (message
-        (identifier)
+        (message_name
+          (identifier))
         (message_body
           (field
             (type)

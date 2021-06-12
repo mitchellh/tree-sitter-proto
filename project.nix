@@ -7,6 +7,7 @@
 
     buildInputs = with pkgs; [
       nodejs-14_x
+      python3Full
       tree-sitter
     ];
   };

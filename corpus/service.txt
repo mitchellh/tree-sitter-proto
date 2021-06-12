@@ -25,7 +25,8 @@ service ABitOfEverythingService {
 (source_file
   (syntax)
   (service
-    (identifier)
+    (service_name
+      (identifier))
     (option
       (full_ident
         (identifier)
@@ -48,7 +49,8 @@ service ABitOfEverythingService {
               (constant
                 (string)))))))
     (rpc
-      (identifier)
+      (rpc_name
+        (identifier))
       (message_or_enum_type
         (identifier))
       (message_or_enum_type

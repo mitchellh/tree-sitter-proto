@@ -1154,7 +1154,8 @@ service AnotherServiceWithNoBindings {
                           (bool
                             (true))))))))))))))
   (message
-    (identifier)
+    (message_name
+      (identifier))
     (message_body
       (field
         (type)
@@ -1198,7 +1199,8 @@ service AnotherServiceWithNoBindings {
           (int_lit
             (decimal_lit))))))
   (message
-    (identifier)
+    (message_name
+      (identifier))
     (message_body
       (field
         (type)
@@ -1255,7 +1257,8 @@ service AnotherServiceWithNoBindings {
                   (string)))))))))
   (comment)
   (message
-    (identifier)
+    (message_name
+      (identifier))
     (message_body
       (option
         (full_ident
@@ -1300,7 +1303,8 @@ service AnotherServiceWithNoBindings {
                 (escape_sequence))))))
       (comment)
       (message
-        (identifier)
+        (message_name
+          (identifier))
         (message_body
           (option
             (full_ident
@@ -1333,7 +1337,8 @@ service AnotherServiceWithNoBindings {
                 (decimal_lit))))
           (comment)
           (enum
-            (identifier)
+            (enum_name
+              (identifier))
             (enum_body
               (comment)
               (enum_field
@@ -1801,7 +1806,8 @@ service AnotherServiceWithNoBindings {
             (decimal_lit))))))
   (comment)
   (message
-    (identifier)
+    (message_name
+      (identifier))
     (message_body
       (option
         (full_ident
@@ -1919,7 +1925,8 @@ service AnotherServiceWithNoBindings {
           (int_lit
             (decimal_lit))))))
   (message
-    (identifier)
+    (message_name
+      (identifier))
     (message_body
       (field
         (type
@@ -1932,7 +1939,8 @@ service AnotherServiceWithNoBindings {
           (int_lit
             (decimal_lit))))))
   (message
-    (identifier)
+    (message_name
+      (identifier))
     (message_body
       (field
         (type)
@@ -1941,7 +1949,8 @@ service AnotherServiceWithNoBindings {
           (int_lit
             (decimal_lit))))))
   (message
-    (identifier)
+    (message_name
+      (identifier))
     (message_body
       (field
         (type)
@@ -1959,7 +1968,8 @@ service AnotherServiceWithNoBindings {
             (decimal_lit))))))
   (comment)
   (enum
-    (identifier)
+    (enum_name
+      (identifier))
     (enum_body
       (comment)
       (enum_field
@@ -1973,7 +1983,8 @@ service AnotherServiceWithNoBindings {
           (decimal_lit)))))
   (comment)
   (message
-    (identifier)
+    (message_name
+      (identifier))
     (message_body
       (field
         (type
@@ -1999,7 +2010,8 @@ service AnotherServiceWithNoBindings {
   (comment)
   (comment)
   (message
-    (identifier)
+    (message_name
+      (identifier))
     (message_body
       (comment)
       (comment)
@@ -2036,7 +2048,8 @@ service AnotherServiceWithNoBindings {
   (comment)
   (comment)
   (message
-    (identifier)
+    (message_name
+      (identifier))
     (message_body
       (comment)
       (comment)
@@ -2071,7 +2084,8 @@ service AnotherServiceWithNoBindings {
   (comment)
   (comment)
   (message
-    (identifier)
+    (message_name
+      (identifier))
     (message_body
       (comment)
       (comment)
@@ -2116,7 +2130,8 @@ service AnotherServiceWithNoBindings {
   (comment)
   (comment)
   (service
-    (identifier)
+    (service_name
+      (identifier))
     (option
       (full_ident
         (identifier)
@@ -2142,7 +2157,8 @@ service AnotherServiceWithNoBindings {
     (comment)
     (comment)
     (rpc
-      (identifier)
+      (rpc_name
+        (identifier))
       (message_or_enum_type
         (identifier))
       (message_or_enum_type
@@ -2158,7 +2174,8 @@ service AnotherServiceWithNoBindings {
             (constant
               (string))))))
     (rpc
-      (identifier)
+      (rpc_name
+        (identifier))
       (message_or_enum_type
         (identifier))
       (message_or_enum_type
@@ -2178,26 +2195,8 @@ service AnotherServiceWithNoBindings {
               (string))))))
     (comment)
     (rpc
-      (identifier)
-      (message_or_enum_type
+      (rpc_name
         (identifier))
-      (message_or_enum_type
-        (identifier))
-      (option
-        (full_ident
-          (identifier)
-          (identifier)
-          (identifier))
-        (constant
-          (block_lit
-            (identifier)
-            (constant
-              (string))
-            (identifier)
-            (constant
-              (string))))))
-    (rpc
-      (identifier)
       (message_or_enum_type
         (identifier))
       (message_or_enum_type
@@ -2216,7 +2215,28 @@ service AnotherServiceWithNoBindings {
             (constant
               (string))))))
     (rpc
-      (identifier)
+      (rpc_name
+        (identifier))
+      (message_or_enum_type
+        (identifier))
+      (message_or_enum_type
+        (identifier))
+      (option
+        (full_ident
+          (identifier)
+          (identifier)
+          (identifier))
+        (constant
+          (block_lit
+            (identifier)
+            (constant
+              (string))
+            (identifier)
+            (constant
+              (string))))))
+    (rpc
+      (rpc_name
+        (identifier))
       (message_or_enum_type
         (identifier)
         (identifier)
@@ -2238,7 +2258,8 @@ service AnotherServiceWithNoBindings {
             (constant
               (string))))))
     (rpc
-      (identifier)
+      (rpc_name
+        (identifier))
       (message_or_enum_type
         (identifier))
       (message_or_enum_type
@@ -2259,7 +2280,8 @@ service AnotherServiceWithNoBindings {
             (constant
               (string))))))
     (rpc
-      (identifier)
+      (rpc_name
+        (identifier))
       (message_or_enum_type
         (identifier))
       (message_or_enum_type
@@ -2297,7 +2319,8 @@ service AnotherServiceWithNoBindings {
                 (constant
                   (string))))))))
     (rpc
-      (identifier)
+      (rpc_name
+        (identifier))
       (message_or_enum_type
         (identifier)
         (identifier)
@@ -2370,7 +2393,8 @@ service AnotherServiceWithNoBindings {
                       (bool
                         (true)))))))))))
     (rpc
-      (identifier)
+      (rpc_name
+        (identifier))
       (message_or_enum_type
         (identifier))
       (message_or_enum_type
@@ -2414,7 +2438,8 @@ service AnotherServiceWithNoBindings {
             (constant
               (block_lit))))))
     (rpc
-      (identifier)
+      (rpc_name
+        (identifier))
       (message_or_enum_type
         (identifier))
       (message_or_enum_type
@@ -2437,7 +2462,8 @@ service AnotherServiceWithNoBindings {
     (comment)
     (comment)
     (rpc
-      (identifier)
+      (rpc_name
+        (identifier))
       (message_or_enum_type
         (identifier)
         (identifier)
@@ -2573,7 +2599,8 @@ service AnotherServiceWithNoBindings {
                               (full_ident
                                 (identifier)))))))))))))))
     (rpc
-      (identifier)
+      (rpc_name
+        (identifier))
       (message_or_enum_type
         (identifier))
       (message_or_enum_type
@@ -2592,7 +2619,8 @@ service AnotherServiceWithNoBindings {
             (constant
               (string))))))
     (rpc
-      (identifier)
+      (rpc_name
+        (identifier))
       (message_or_enum_type
         (identifier)
         (identifier)
@@ -2602,27 +2630,8 @@ service AnotherServiceWithNoBindings {
         (identifier)
         (identifier)))
     (rpc
-      (identifier)
-      (message_or_enum_type
-        (identifier)
-        (identifier)
+      (rpc_name
         (identifier))
-      (message_or_enum_type
-        (identifier)
-        (identifier)
-        (identifier))
-      (option
-        (full_ident
-          (identifier)
-          (identifier)
-          (identifier))
-        (constant
-          (block_lit
-            (identifier)
-            (constant
-              (string))))))
-    (rpc
-      (identifier)
       (message_or_enum_type
         (identifier)
         (identifier)
@@ -2642,8 +2651,11 @@ service AnotherServiceWithNoBindings {
             (constant
               (string))))))
     (rpc
-      (identifier)
+      (rpc_name
+        (identifier))
       (message_or_enum_type
+        (identifier)
+        (identifier)
         (identifier))
       (message_or_enum_type
         (identifier)
@@ -2658,12 +2670,10 @@ service AnotherServiceWithNoBindings {
           (block_lit
             (identifier)
             (constant
-              (string))
-            (identifier)
-            (constant
               (string))))))
     (rpc
-      (identifier)
+      (rpc_name
+        (identifier))
       (message_or_enum_type
         (identifier))
       (message_or_enum_type
@@ -2684,7 +2694,30 @@ service AnotherServiceWithNoBindings {
             (constant
               (string))))))
     (rpc
-      (identifier)
+      (rpc_name
+        (identifier))
+      (message_or_enum_type
+        (identifier))
+      (message_or_enum_type
+        (identifier)
+        (identifier)
+        (identifier))
+      (option
+        (full_ident
+          (identifier)
+          (identifier)
+          (identifier))
+        (constant
+          (block_lit
+            (identifier)
+            (constant
+              (string))
+            (identifier)
+            (constant
+              (string))))))
+    (rpc
+      (rpc_name
+        (identifier))
       (message_or_enum_type
         (identifier))
       (message_or_enum_type
@@ -2700,7 +2733,8 @@ service AnotherServiceWithNoBindings {
             (constant
               (string))))))
     (rpc
-      (identifier)
+      (rpc_name
+        (identifier))
       (message_or_enum_type
         (identifier))
       (message_or_enum_type
@@ -2716,7 +2750,8 @@ service AnotherServiceWithNoBindings {
             (constant
               (string))))))
     (rpc
-      (identifier)
+      (rpc_name
+        (identifier))
       (message_or_enum_type
         (identifier))
       (message_or_enum_type
@@ -2735,7 +2770,8 @@ service AnotherServiceWithNoBindings {
             (constant
               (string))))))
     (rpc
-      (identifier)
+      (rpc_name
+        (identifier))
       (message_or_enum_type
         (identifier)
         (identifier)
@@ -2767,7 +2803,8 @@ service AnotherServiceWithNoBindings {
             (constant
               (string))))))
     (rpc
-      (identifier)
+      (rpc_name
+        (identifier))
       (message_or_enum_type
         (identifier)
         (identifier))
@@ -2786,7 +2823,8 @@ service AnotherServiceWithNoBindings {
             (constant
               (string))))))
     (rpc
-      (identifier)
+      (rpc_name
+        (identifier))
       (message_or_enum_type
         (identifier)
         (identifier))
@@ -2805,7 +2843,8 @@ service AnotherServiceWithNoBindings {
             (constant
               (string))))))
     (rpc
-      (identifier)
+      (rpc_name
+        (identifier))
       (message_or_enum_type
         (identifier)
         (identifier)
@@ -2824,9 +2863,11 @@ service AnotherServiceWithNoBindings {
               (string)))))))
   (comment)
   (service
-    (identifier)
+    (service_name
+      (identifier))
     (rpc
-      (identifier)
+      (rpc_name
+        (identifier))
       (message_or_enum_type
         (identifier)
         (identifier)
@@ -2846,9 +2887,11 @@ service AnotherServiceWithNoBindings {
             (constant
               (string)))))))
   (service
-    (identifier)
+    (service_name
+      (identifier))
     (rpc
-      (identifier)
+      (rpc_name
+        (identifier))
       (message_or_enum_type
         (identifier)
         (identifier)
