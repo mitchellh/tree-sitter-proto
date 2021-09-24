@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
     "test": "tree-sitter test",
-    "test-windows": "tree-sitter test"
+    "test-windows": "tree-sitter test",
+    "playground": "tree-sitter build-wasm && tree-sitter playground"
   },
   "keywords": [
     "tree-sitter",
