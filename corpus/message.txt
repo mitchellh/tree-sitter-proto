@@ -6,6 +6,9 @@ syntax = "proto3";
 
 message Outer {
   option (my_option).a = true;
+  option (another_option) = "a multi-line "
+    "string literal which compiles but I can't find any information "
+    'about in any specification';
   message Inner {
     int64 ival = 1;
   }
@@ -42,6 +45,11 @@ extend another.Message {
         (constant
           (bool
             (true))))
+      (option
+        (full_ident
+          (identifier))
+        (constant
+          (string)))
       (message
         (message_name
           (identifier))

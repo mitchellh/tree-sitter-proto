@@ -469,24 +469,26 @@ module.exports = grammar({
       ));
     },
 
-    string: $ => choice(
-      seq(
-        '"',
-        repeat(choice(
-          token.immediate(prec(1, /[^"\\]+/)),
-          $.escape_sequence
-        )),
-        '"'
-      ),
+    string: $ => repeat1(
+      choice(
+        seq(
+          '"',
+          repeat(choice(
+            token.immediate(prec(1, /[^"\\]+/)),
+            $.escape_sequence
+          )),
+          '"'
+        ),
 
-      seq(
-        "'",
-        repeat(choice(
-          token.immediate(prec(1, /[^'\\]+/)),
-          $.escape_sequence
-        )),
-        "'",
-      ),
+        seq(
+          "'",
+          repeat(choice(
+            token.immediate(prec(1, /[^'\\]+/)),
+            $.escape_sequence
+          )),
+          "'",
+        ),
+      )
     ),
 
     escape_sequence: $ => token.immediate(seq(
