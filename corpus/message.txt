@@ -12,6 +12,19 @@ message Outer {
   repeated Inner inner_message = 2;
   EnumAllowingAlias enum_field =3;
   map<int32, string> my_map = 4;
+  required string _string_field = 5;
+
+  extend package.to.SubMessage {
+    string extension_field = 100;
+  }
+
+  extensions 1000 to 1200;
+  reserved 10 to 20;
+  reserved field_name, "another_field_name";
+}
+
+extend another.Message {
+  string field_to_add = 1000;
 }
 
 --------------------------------------------------------------------------------
@@ -57,6 +70,53 @@ message Outer {
             (decimal_lit))))
       (map_field
         (key_type)
+        (type)
+        (identifier)
+        (field_number
+          (int_lit
+            (decimal_lit))))
+      (field
+        (type)
+        (identifier)
+        (field_number
+          (int_lit
+            (decimal_lit))))
+      (extend
+        (full_ident
+          (identifier)
+          (identifier)
+          (identifier))
+        (message_body
+          (field
+            (type)
+            (identifier)
+            (field_number
+              (int_lit
+                (decimal_lit))))))
+      (extensions
+        (ranges
+          (range
+            (int_lit
+              (decimal_lit))
+            (int_lit
+              (decimal_lit)))))
+      (reserved
+        (ranges
+          (range
+            (int_lit
+              (decimal_lit))
+            (int_lit
+              (decimal_lit)))))
+      (reserved
+        (field_names
+          (identifier)
+          (string)))))
+  (extend
+    (full_ident
+      (identifier)
+      (identifier))
+    (message_body
+      (field
         (type)
         (identifier)
         (field_number

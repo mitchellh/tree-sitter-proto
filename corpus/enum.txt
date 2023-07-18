@@ -9,6 +9,8 @@ enum EnumAllowingAlias {
   UNKNOWN = 0;
   STARTED = 1;
   RUNNING = 2 [(custom_option) = "hello world"];
+
+  reserved 4 to 6;
 }
 
 --------------------------------------------------------------------------------
@@ -40,4 +42,11 @@ enum EnumAllowingAlias {
           (full_ident
             (identifier))
           (constant
-            (string)))))))
+            (string))))
+      (reserved
+        (ranges
+          (range
+            (int_lit
+              (decimal_lit))
+            (int_lit
+              (decimal_lit))))))))
