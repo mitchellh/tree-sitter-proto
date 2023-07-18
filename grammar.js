@@ -4,6 +4,14 @@ const
   octal_digit = /[0-7]/
   hex_digit = /[0-9A-Fa-f]/
 
+function array_of(content) {
+  return seq(
+    '[',
+    optional(seq(content, repeat(seq(',', content)))),
+    ']',
+  );
+}
+
 module.exports = grammar({
   name: 'proto',
 
@@ -13,22 +21,23 @@ module.exports = grammar({
     // proto = syntax { import | package | option | topLevelDef | emptyStatement }
     // topLevelDef = message | enum | service
     source_file: $ => seq(
-      $.syntax,
+      optional($.syntax),
       optional(repeat(choice(
         $.import,
         $.package,
         $.option,
         $.enum,
         $.message,
+        $.extend,
         $.service,
         $.empty_statement,
       ))),
     ),
 
-    empty_statement: $ => ';',
+    empty_statement: _ => ';',
 
     // syntax = "syntax" "=" quote "proto3" quote ";"
-    syntax: $ => seq('syntax', '=', '"proto3"', ';'),
+    syntax: $ => seq('syntax', '=', choice('"proto3"', '"proto2"'), ';'),
 
     // import = "import" [ "weak" | "public" ] strLit ";"
     import: $ => seq(
@@ -84,6 +93,7 @@ module.exports = grammar({
         $.option,
         $.enum_field,
         $.empty_statement,
+        $.reserved,
       )),
       '}',
     ),
@@ -126,6 +136,8 @@ module.exports = grammar({
         $.oneof,
         $.map_field,
         $.reserved,
+        $.extensions,
+        $.extend,
         $.empty_statement,
       )),
       '}',
@@ -133,13 +145,19 @@ module.exports = grammar({
 
     message_name: $ => $.identifier,
 
+    extend: $ => seq(
+      'extend',
+      $.full_ident,
+      $.message_body,
+    ),
+
     // field = [ "repeated" ] type fieldName "=" fieldNumber [ "[" fieldOptions "]" ] ";"
     // fieldOptions = fieldOption { ","  fieldOption }
     // fieldOption = optionName "=" constant
     field: $ => seq(
       // This isn't allowed according to the spec and yet the proto3 compiler
       // accepts it so we put it here for parsing.
-      optional('optional'),
+      optional(choice('optional','required')),
 
       optional('repeated'),
       $.type,
@@ -247,6 +265,12 @@ module.exports = grammar({
       ';',
     ),
 
+    extensions: $ => seq(
+      'extensions',
+      $.ranges,
+      ';',
+    ),
+
     ranges: $ => seq($.range, repeat(seq(',', $.range))),
 
     range: $ => seq(
@@ -258,8 +282,8 @@ module.exports = grammar({
     ),
 
     field_names: $ => seq(
-      $.identifier,
-      repeat(seq(',', $.identifier)),
+      $._identifier_or_string,
+      repeat(seq(',', $._identifier_or_string)),
     ),
 
     // messageType = [ "." ] { ident "." } messageName
@@ -345,16 +369,14 @@ module.exports = grammar({
     block_lit: $ => seq(
       '{',
       repeat(seq(
-        $.identifier,
+        choice(
+          $.identifier,
+          seq('[', $.full_ident, ']'),
+        ),
         optional(':'),
         choice(
           $.constant,
-          seq(
-            '[',
-            $.constant,
-            repeat(seq(',', $.constant)),
-            ']',
-          ),
+          array_of($.constant),
         ),
         optional(choice(',', ';')),
       )),
@@ -363,13 +385,15 @@ module.exports = grammar({
 
     // ident = letter { letter | decimalDigit | "_" }
     identifier: $ => token(seq(
-      letter,
+      choice(letter, '_'),
       optional(repeat(choice(
         letter,
         decimal_digit,
         '_',
       ))),
     )),
+
+    _identifier_or_string: $ => choice($.identifier, $.string),
 
     // fullIdent = ident { "." ident }
     full_ident: $ => seq(
