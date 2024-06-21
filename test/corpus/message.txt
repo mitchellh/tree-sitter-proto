@@ -12,6 +12,8 @@ message Outer {
   repeated Inner inner_message = 2;
   EnumAllowingAlias enum_field =3;
   map<int32, string> my_map = 4;
+  reserved 10, 15, 20 to 30;
+  reserved "foo", "bar";
 }
 
 --------------------------------------------------------------------------------
@@ -61,4 +63,21 @@ message Outer {
         (identifier)
         (field_number
           (int_lit
-            (decimal_lit)))))))
+            (decimal_lit))))
+      (reserved
+        (ranges
+          (range
+            (int_lit
+              (decimal_lit)))
+          (range
+            (int_lit
+              (decimal_lit)))
+          (range
+            (int_lit
+              (decimal_lit))
+            (int_lit
+              (decimal_lit)))))
+      (reserved
+        (reserved_field_names
+          (reserved_identifier)
+          (reserved_identifier))))))

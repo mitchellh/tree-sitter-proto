@@ -840,7 +840,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "field_names"
+              "name": "reserved_field_names"
             }
           ]
         },
@@ -933,6 +933,31 @@
               {
                 "type": "SYMBOL",
                 "name": "identifier"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "reserved_field_names": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "reserved_identifier"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": ","
+              },
+              {
+                "type": "SYMBOL",
+                "name": "reserved_identifier"
               }
             ]
           }
@@ -1349,6 +1374,54 @@
                 "type": "BLANK"
               }
             ]
+          }
+        ]
+      }
+    },
+    "reserved_identifier": {
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "\""
+          },
+          {
+            "type": "PATTERN",
+            "value": "[a-zA-Z]"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "REPEAT",
+                "content": {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "PATTERN",
+                      "value": "[a-zA-Z]"
+                    },
+                    {
+                      "type": "PATTERN",
+                      "value": "[0-9]"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "_"
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "STRING",
+            "value": "\""
           }
         ]
       }
@@ -1959,4 +2032,3 @@
   "inline": [],
   "supertypes": []
 }
-

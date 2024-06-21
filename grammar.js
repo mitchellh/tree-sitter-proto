@@ -243,7 +243,7 @@ module.exports = grammar({
     // fieldNames = fieldName { "," fieldName }
     reserved: $ => seq(
       'reserved',
-      choice($.ranges, $.field_names),
+      choice($.ranges, $.reserved_field_names),
       ';',
     ),
 
@@ -260,6 +260,11 @@ module.exports = grammar({
     field_names: $ => seq(
       $.identifier,
       repeat(seq(',', $.identifier)),
+    ),
+
+    reserved_field_names: $ => seq(
+      $.reserved_identifier,
+      repeat(seq(',', $.reserved_identifier)),
     ),
 
     // messageType = [ "." ] { ident "." } messageName
@@ -361,7 +366,7 @@ module.exports = grammar({
       '}',
     ),
 
-    // ident = letter { letter | decimalDigit | "_" }
+    // identifier = letter { letter | decimalDigit | "_" }
     identifier: $ => token(seq(
       letter,
       optional(repeat(choice(
@@ -369,6 +374,18 @@ module.exports = grammar({
         decimal_digit,
         '_',
       ))),
+    )),
+
+    // reserved_identifier = \" letter { letter | decimalDigit | "_" } \"
+    reserved_identifier: $ => token(seq(
+      '"',
+      letter,
+      optional(repeat(choice(
+        letter,
+        decimal_digit,
+        '_',
+      ))),
+      '"',
     )),
 
     // fullIdent = ident { "." ident }
